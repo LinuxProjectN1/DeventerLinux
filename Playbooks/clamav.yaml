@@ -1,10 +1,10 @@
 ---
 #ansible-playbook clamav.yaml -i ../inventory --ask-pass --ask-become-pass
 - name: Install ClamAV service
-  hosts: test
+  hosts: localhost
   become: true
   tasks:
-  - name: Dnf install zabbix-agent
+  - name: Dnf install packages
     dnf:
       name: "{{ item }}"
       state: latest
@@ -17,13 +17,13 @@
   - name: Set permissions
     shell: "{{ item }}"
     loop:
-      - ''setsebool -P antivirus_can_scan_system 1
-      - 'sed -i 's/#LocalSocket \/run/LocalSocket \/run/g' /etc/clamd.d/scan.conf'
+      - 'setsebool -P antivirus_can_scan_system 1'
+      - 'sed -i "s/#LocalSocket \/run/LocalSocket \/run/g" /etc/clamd.d/scan.conf'
 
   - name: Copy conf
     copy:
       src: ../files/scan_config.conf
-      dst: /usr/lib/systemd/system/freshclam.service
+      dest: /usr/lib/systemd/system/freshclam.service
   
   - name: Start and enable freshclam
     ansible.builtin.service:
