@@ -1,12 +1,12 @@
+# ansible-playbook run_configure_hosts.yaml -i ../inventory --ask-pass --ask-become-pass -t clamav,zabbix-agent
 ---
 - name: Execute configure_hosts role
   hosts: test
   become: true
   tasks:
-  - name: test
+  - name: Include role configure_hosts
     include_role: 
       name: ../Roles/configure_hosts
     tags:
-      - test
       - zabbix-agent
       - clamav
