@@ -2,10 +2,12 @@
 - name: Set permissions
   shell: "{{ item }}"
   loop:
-    - ''setsebool -P antivirus_can_scan_system 1
-    - 'sed -i 's/#LocalSocket \/run/LocalSocket \/run/g' /etc/clamd.d/scan.conf'
+    - 'setsebool -P antivirus_can_scan_system 1'
+    - 'sed -i "s/#LocalSocket \/run/LocalSocket \/run/g" /etc/clamd.d/scan.conf'
+  tags: clamav
 
 - name: Copy conf
   copy:
     src: ../files/scan_config.conf
-    dst: /usr/lib/systemd/system/freshclam.service
+    dest: /usr/lib/systemd/system/freshclam.service
+  tags: clamav

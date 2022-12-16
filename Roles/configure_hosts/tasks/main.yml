@@ -1,6 +1,9 @@
 ---
 - name: Install packages for specific OS
-  include_tasks: '{{ ansible_os_family }}'.yml
+  include_tasks: "{{ ansible_os_family }}.yml"
+  tags: 
+    - zabbix-agent
+    - clamav
 
 - name: Configure Zabbix-agent
   include_tasks: 'zabbix-agent.yml'

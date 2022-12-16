@@ -1,0 +1,12 @@
+---
+- name: Execute configure_hosts role
+  hosts: test
+  become: true
+  tasks:
+  - name: test
+    include_role: 
+      name: ../Roles/configure_hosts
+    tags:
+      - test
+      - zabbix-agent
+      - clamav

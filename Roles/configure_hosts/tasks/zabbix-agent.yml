@@ -9,9 +9,15 @@
     - { From: 'Server=', To: 'Server={{ zabbix_server }}'}
     - { From: 'ServerActive=', To: 'ServerActive={{ zabbix_server }}'}
     - { From: 'Hostname=', To: 'Hostname={{ ansible_hostname }}'}
+  notify: 
+    - restart_zabbix
+    - restart_firewall
+  tags: zabbix-agent
 
 - name: Open port 10050 for zabbix-server
   ansible.posix.firewalld:
     port: 10050/tcp
     permanent: yes
     state: enabled
+  notify: restart_firewall
+  tags: zabbix-agent
